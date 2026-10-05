@@ -1,0 +1,40 @@
+
+Domain:
+D(studentIdnr, studentName, login, branchName, programName, programAbbreviation, 
+ courseCode, courseName, credits, departmentName, departmentAbbreviation, capacity, 
+ classification, grade, position)
+
+-- a) Functional dependencies --
+
+departmentAbbreviation -> departmentName
+departmentName -> departmentAbbreviation
+programName -> programAbbreviation
+studentIdnr -> studentName login programName branchName
+login -> studentIdnr
+coursecode -> courseName credits departmentName capacity
+studentIdnr courseCode -> grade position
+courseCode, position -> studentIdnr;
+
+
+-- b) BCNF schema --
+
+R1(_departmentName_, departmentAbbreviation, )
+
+R2(_courseCode_, departmentName, courseName, credits, capacity)
+
+R3(_studentIdnr_, _courseCode_, grade, position)
+
+R4(_programName_, programAbbreviation)
+
+R5(_studentIdnr_, programName, login, studentName, branchName)
+
+R6(studentIdnr, courseCode, classification)
+
+-- c) 4NF additions --
+
+MVD identified: courseCode ->> classification
+
+R6 decomposed on courseCode ->> classification:
+
+R7(_courseCode_, studentIdnr)
+R8(_courseCode_, classification)
